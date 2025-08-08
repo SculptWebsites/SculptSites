@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SculptSites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      padding-bottom: 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 0;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('background.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    body::after {
+      top: 100vh;
+      transform: scaleY(-1);
+      z-index: -3;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1f2937;
+      padding: 1rem 2rem;
+      margin-top: 30px;
+      border-radius: 12px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      z-index: 20;
+      position: relative;
+      flex-wrap: wrap;
+    }
+
+    .navbar .logo {
+      color: #fff;
+      font-size: 1.8rem;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .navbar ul li {
+      margin: 0 1rem;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .navbar ul li a:hover {
+      background-color: #4b5563;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 20px;
+      flex-grow: 1;
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      max-width: 800px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 30px;
+      background-color: #2563eb;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #1e40af;
+    }
+
+    .showcase-section {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      height: 320px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .card.left {
+      flex-direction: row;
+    }
+
+    .card.right {
+      flex-direction: row-reverse;
+    }
+
+    .card img {
+      width: 60%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+      border-radius: 12px 0 0 12px;
+    }
+
+    .card.right img {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .info-panel {
+      position: relative;
+      width: 40%;
+      background-color: #000000cc;
+      color: white;
+      padding: 30px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transform: translateX(100%);
+      transition: transform 0.4s ease;
+      border-radius: 0 12px 12px 0;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .card.right .info-panel {
+      border-radius: 12px 0 0 12px;
+      transform: translateX(-100%);
+    }
+
+    .card:hover img {
+      transform: scale(0.8);
+      filter: brightness(0.8);
+    }
+
+    .card:hover .info-panel {
+      transform: translateX(0);
+    }
+
+    footer {
+      background-color: #1f2937;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      border-radius: 0 0 12px 12px;
+      font-size: 0.9rem;
+      user-select: none;
+      width: 100vw;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      box-sizing: border-box;
+      z-index: 10;
+    }
+
+    /* === RESPONSIVE === */
+
+    @media (max-width: 900px) {
+      .card {
+        flex-direction: column !important;
+        height: auto;
+      }
+
+      .card img {
+        width: 100% !important;
+        height: auto;
+        border-radius: 12px 12px 0 0 !important;
+        transform: none !important;
+      }
+
+      .info-panel {
+        width: 100% !important;
+        position: relative !important;
+        padding: 20px !important;
+        border-radius: 0 0 12px 12px !important;
+        color: #111 !important;
+        background-color: #f5f7fa !important;
+        font-size: 1rem !important;
+        transform: none !important;
+      }
+
+      .card:hover img,
+      .card:hover .info-panel {
+        transform: none !important;
+        filter: none !important;
+      }
+
+      .navbar ul li {
+        margin: 0 0.5rem;
+      }
+
+      .navbar ul li a {
+        font-size: 1rem;
+        padding: 6px 10px;
+      }
+
+      .container {
+        margin: 40px auto;
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+        max-width: 100%;
+      }
+
+      footer {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar ul {
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      .navbar ul li {
+        margin: 0.3rem 0.6rem 0.3rem 0;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .button {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">SculptSites</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="abouts.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="contacts.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Welcome to SculptSites</h1>
+    <p>This is a modern and clean site using a custom font, proper spacing, and a simple but elegant layout.</p>
+    <a href="about.html" class="button">Learn More</a>
+  </div>
+
+  <section class="showcase-section" aria-label="Showcase of Website Types">
+    <div class="card left" tabindex="0">
+      <img src="Restaurant.jpg" alt="Restaurant website example" />
+      <div class="info-panel">
+        <h2>Restaurant Websites</h2>
+        <p>We create appetizing and inviting restaurant websites designed to attract diners and showcase your menu beautifully.</p>
+      </div>
+    </div>
+
+    <div class="card right" tabindex="0">
+      <img src="Barber.jpg" alt="Barbershop website example" />
+      <div class="info-panel">
+        <h2>Barbershop Websites</h2>
+        <p>Our barbershop website designs combine style and functionality to help you book more clients and highlight your unique services.</p>
+      </div>
+    </div>
+
+    <div class="card left" tabindex="0">
+      <img src="Shops.jpg" alt="Shop website example" />
+      <div class="info-panel">
+        <h2>Shop Websites</h2>
+        <p>From boutiques to e-commerce stores, we build sleek shop websites that provide a seamless shopping experience for your customers.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="height: 200vh;"></div>
+
+  <footer>
+    &copy; 2025 SculptSites. All rights reserved.
+  </footer>
+
+</body>
+</html>
